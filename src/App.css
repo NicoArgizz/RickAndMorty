@@ -1,0 +1,9 @@
+.App {
+   text-align: center;
+   min-height: 100vh;
+   height: auto;
+   background-image: linear-gradient(to bottom, rgb(0, 0, 0), rgba(56, 10, 45, 0.73)), url('./img/gif-bgn.gif');
+   background-size: cover;
+   background-attachment: fixed;
+   background-position: center;
+}
