@@ -1,70 +1,229 @@
-# Getting Started with Create React App
+# **💪 HW5 | Express - Integration**
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## **🕒 DURACIÓN ESTIMADA**
 
-## Available Scripts
+XX minutos
 
-In the project directory, you can run:
+<br />
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+<div align="center">
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## **💻 RICK AND MORTY APP 💻**
 
-### `npm test`
+</div>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## **📝 INTRODUCCIÓN**
 
-### `npm run build`
+En esta homework crearemos un servidor con la librería de express. A su vez crearemos distintas rutas, y también simularemos una base de datos apra nuestros personajes favoritos.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Esta vez las rutas que crearemos son:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+-  **`GET getCharById`**: esta ruta obtendrá personajes de la API mediante su **id**.
+-  **`GET login`**: esta ruta es la que le dará o no acceso al usuario para usar la aplicación.
+-  **`POST postFav`**: esta ruta guardará en nuestro servidor a nuestros personajes favoritos.
+-  **`DELETE deleteFav`**: esta ruta eliminará a un personaje de nuestros favoritos.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<br />
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## **📋 INSTRUCCIONES**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### **👩‍💻 EJERCICIO 1 | Servidor**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Instala la librería **`express`**. Luego dirígete al archivo **`index.js`** y elimina todo su contenido. Ahora crearemos el servidor con esta librería.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. Dentro del archivo **index.js** importa **`express`** e inicializa un nuevo servidor en el puerto 3001. Esta sería una forma de seguir buenas prácticas:
 
-## Learn More
+```js
+const express = require('express');
+const server = express();
+const PORT = 3001;
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+server.listen(PORT, () => {
+   console.log('Server raised in port: ' + PORT);
+});
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+¡Acabas de crear tu servidor con Express! 😎
 
-### Code Splitting
+<br />
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+### **👩‍💻 EJERCICIO 2 | GET getCharById**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+En este ejercicio construiremos la nueva versión de este controlador para que nos sirva con **express**. Dirígete al archivo **`getCharById.js`** y elimina todo el contenido que hay dentro de él.
 
-### Making a Progressive Web App
+1. Crea una constante llamada **`URL`** y guarda lo siguiente: "**https://rickandmortyapi.com/api/character/**".
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+2. Crea una función con el nombre **`getCharById`** y expórtala. Recibe por parámetro a los objetos **`req`** y **`res`**.
 
-### Advanced Configuration
+3. Dentro de la función haz una petición a la API a partir del **id** que recibes por **`Params`**.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+> [**NOTA**]: no olvides importar **`axios`**.
 
-### Deployment
+4. En el caso de que todo salga OK y se encuentre a un personaje, devuelve un JSON con las propiedades: **id**, **status**, **name**, **species**, **origin**, **image** y **gender**.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+5. En el caso de que todo salga OK pero no se encuentre a un personaje, devuelve un mensaje con **status 404** que diga _Not fount_.
 
-### `npm run build` fails to minify
+6. Si hay un error debes responder con un status 500, y un texto con la propiedad **`message`** de **error**.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+</br>
+
+---
+
+### **👩‍💻 EJERCICIO 3 | GET login**
+
+En este ejercicio construiremos un controlador que validará que el usuario que se está logeando tenga permiso. Para definir quienes tendrán permisos ve a tu carpeta **utils** y crea un archivo llamado **`users.js`**. Aquí solo deberas exportar un arrgelo con un solo objeto. Este objeto debe tener esta estructura:
+
+```js
+module.exports = [{email: /*Tu email*/, password: /*Tu password*/}];
+```
+
+1. Dentro de tu carpeta **controllers** crea un archivo llamado **`login.js`**. Dentro de este deberás crear y exportar una función que recibirá por parámetro a los objetos **`req`** y **`res`**.
+
+2. Deberás obtener los datos **email** y **password** que recibes mediante **`Query`**. Una vez hecho esto, importa tu arreglo de usuarios y verifica si dentro de ese arreglo hay un usuario que coincida tanto su email y su contraseña con los que recibes por **`Query`**.
+
+3. En el caso de que haya un usuario que cumpla esa condición, entonces debes devolver una respuesta con **status 200**, y, en formato JSON, un objeto con una propiedad **access: `true`**. Caso contrario devuelve lo mismo pero con la propiedad **access: `false`**.
+
+<br />
+
+---
+
+### **👩‍💻 EJERCICIO 4 | POST & DELETE favorites**
+
+Dentro de tu carpeta **controllers** crea un archivo con el nombre **`handleFavorites.js`**. Dentro de este archivo deberás declarar un **arreglo vacío** llamado **`myFavorites`**.
+
+> [**NOTA**]: es importante que **NO** declares este arreglo como constante ya que lo modificaremos.
+
+1. Crea una función llamada **`postFav`** que reciba por parámetro los objetos **`req`** y **`res`**.
+
+2. Agrega en tu arreglo de favoritos el personaje que estarás recibiendo por **`Body`**.
+
+3. Finalmente devuelve tu arreglo de favoritos en formato JSON.
+
+4. Crea una función llamada **`deleteFav`** que reciba por parámetro los objetos **`req`** y **`res`**.
+
+5. Filtra a tus personajes favoritos de manera que elimines aquel que tiene el mismo **id** que recibes por **`Params`**.
+
+6. Finalmente devuelve tu arreglo de favoritos en formato JSON.
+
+7. Exporta ambas funciones.
+
+<br />
+
+---
+
+### **👩‍💻 EJERCICIO 5 | Rutas**
+
+Dirígete a la carpeta **routes** y crea un archivo con el nombre **`index.js`**. Dentro de este deberás importar todos tus controladores. También deberás importar las función **`Router`** de **express**. Crea una ruta para cada controlador con los siguientes paths:
+
+-  GET **`getCharById`**: "/character/:id"
+-  GET **`login`**: "/login"
+-  POST **`postFav`**: "/fav"
+-  DELETE **`deleteFav`**: "/fav/:id"
+
+Finalmente exporta tu router.
+
+<br />
+
+---
+
+### **👩‍💻 EJERCICIO 6 | Middlewares**
+
+Dirígete al archivo **`index.js`** en el que tienes tu servidor. Aquí deberás:
+
+1. Importar tu router.
+
+2. Copia este middleware en tu servidor:
+
+   ```js
+   server.use((req, res, next) => {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Credentials', 'true');
+      res.header(
+         'Access-Control-Allow-Headers',
+         'Origin, X-Requested-With, Content-Type, Accept'
+      );
+      res.header(
+         'Access-Control-Allow-Methods',
+         'GET, POST, OPTIONS, PUT, DELETE'
+      );
+      next();
+   });
+   ```
+
+3. Crea un middleware que ejecute a **`express.json()`**.
+
+4. Crea un middleware que agregue el string "**`/rickandmorty`**" antes de cada una de tus rutas.
+
+<br />
+
+---
+
+### **👩‍💻 EJERCICIO 7 | Back & Front**
+
+Llegó el momento para conectar nuestro nuevo servidor con nuestro Front-End. Para este ejercicio simplemente tendrás que reemplazar código de tu Front-End por los distintos snippets que te presentaremos a continuación. Para esto dirígete a tu carpeta **Client**.
+
+1. Dirígete a tu archivo **`App.js`** y busca tu función **`login`**. Elimina por completo esta función, ya que la reemplazaremos con esta:
+
+   ```js
+   function login(userData) {
+      const { email, password } = userData;
+      const URL = 'http://localhost:3001/rickandmorty/login/';
+      axios(URL + `?email=${email}&password=${password}`).then(({ data }) => {
+         const { access } = data;
+         setAccess(data);
+         access && navigate('/home');
+      });
+   }
+   ```
+
+2. Ahora conectaremos nuestra ruta **postFav**. Para esto dirígete a tu archivo **`actions.js`** y reemplaza tu función addFav. Luego dirígete a tu **`reducer`** y reemplaza tu caso "ADD_FAV".
+
+   ```js
+   import axios from "axios";
+
+   // ACTION | addFav
+   export const addFav = (character) => {
+      const endpoint = 'http://localhost:3001/rickandmorty/fav';
+      return (dispatch) => {
+         axios.post(endpoint, character).then(({ data }) => {
+            return dispatch({
+               type: 'ADD_FAV',
+               payload: data,
+            });
+         });
+      };
+   };
+
+   // REDUCER | ADD_FAV
+   case 'ADD_FAV':
+         return { ...state, myFavorites: payload, allCharacters: payload };
+   ```
+
+> [**NOTA**]: debes importar **axios**.
+
+3. Por último nos queda conectar nuestra ruta **deleteFav**. Para esto dirígete a tu archivo **`actions.js`** y reemplaza tu función removeFav. Luego dirígete a tu **`reducer`** y reemplaza tu caso "REMOVE_FAV".
+
+   ```js
+   // ACTION | removeFav
+   export const removeFav = (id) => {
+      const endpoint = 'http://localhost:3001/rickandmorty/fav/' + id;
+      return (dispatch) => {
+         axios.delete(endpoint).then(({ data }) => {
+            return dispatch({
+               type: 'REMOVE_FAV',
+               payload: data,
+         });
+         });
+      };
+   };
+
+   // REDUCER | REMOVE_FAV
+   case 'REMOVE_FAV':
+         return { ...state, myFavorites: payload };
+   ```
