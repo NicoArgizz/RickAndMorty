@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 
 const Favorites = ({ myFavorites, filteredFavorites }) => {
-  // const myFavorites = props
   const dispatch = useDispatch();
   const [aux, setAux] = useState(false);
 
@@ -18,24 +17,26 @@ const Favorites = ({ myFavorites, filteredFavorites }) => {
     dispatch(filterCards(event.target.value));
   };
 
+  const favoritesToRender =
+    filteredFavorites.length > 0 ? filteredFavorites : myFavorites;
+
   return (
     <>
       <h1 className="text-white">Favorites</h1>
-        <select onChange={handleOrder}>
-          <option value="A">Ascendente</option>
-          <option value="D">Descendente</option>
-        </select>
-        <select onChange={handleFilter}>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="Genderless">Genderless</option>
-          <option value="unknown">unknown</option>
-        </select>
+      <select onChange={handleOrder}>
+        <option value="A">Ascendente</option>
+        <option value="D">Descendente</option>
+      </select>
+      <select onChange={handleFilter}>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Genderless">Genderless</option>
+        <option value="unknown">unknown</option>
+        <option value="allCharacters">All</option>
+      </select>
 
-      <div className=" d-flex flex-column flex-md-row justify-content-around align-items-center flex-wrap">
-
-
-        {myFavorites?.map((character) => {
+      <div className="d-flex flex-column flex-md-row justify-content-around align-items-center flex-wrap">
+        {favoritesToRender?.map((character) => {
           return (
             <Card02
               key={character.id}
@@ -44,10 +45,8 @@ const Favorites = ({ myFavorites, filteredFavorites }) => {
               status={character.status}
               species={character.species}
               gender={character.gender}
-              // origin={character.origin.name}
               image={character.image}
               onClose={character.onClose}
-              // className={character.styles.container}
             ></Card02>
           );
         })}
@@ -59,7 +58,7 @@ const Favorites = ({ myFavorites, filteredFavorites }) => {
 const mapStateToProps = (state) => {
   return {
     myFavorites: state.myFavorites,
-    filteredFavorites: state.filteredFavorites
+    filteredFavorites: state.filteredCharacters, // Actualizado para usar la propiedad filteredCharacters
   };
 };
 
