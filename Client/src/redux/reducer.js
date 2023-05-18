@@ -9,11 +9,17 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_FAV:
-      return {
-        ...state,
-        myFavorites: [...state.myFavorites, action.payload],
-        allCharacters: [...state.allCharacters, action.payload],
-      };
+      const isCharacterAlreadyAdded = state.myFavorites.some((character) => character.id === action.payload.id);
+      if (isCharacterAlreadyAdded) {
+        return state;
+      } else {
+        return {
+          ...state,
+          myFavorites: [...state.myFavorites, action.payload],
+          allCharacters: [...state.allCharacters, action.payload],
+          filteredCharacters: [...state.filteredCharacters, action.payload]
+        };
+      }
     case REMOVE_FAV:
       let deleteCharacter = state.myFavorites.filter(
         (character) => character.id !== Number(action.payload)
@@ -21,7 +27,8 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         myFavorites: deleteCharacter,
-        allCharacters: deleteCharacter
+        allCharacters: deleteCharacter,
+        filteredCharacters: deleteCharacter
       };
     case FILTER:
       if (action.payload === 'allCharacters') {
@@ -30,7 +37,7 @@ const reducer = (state = initialState, action) => {
           filteredCharacters: state.myFavorites
         };
       } else {
-        const filteredCharacters = state.allCharacters.filter(
+        const filteredCharacters = state.myFavorites.filter(
           (character) => character.gender === action.payload
           );
           return {
