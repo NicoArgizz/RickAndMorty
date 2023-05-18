@@ -14,11 +14,10 @@ const deleteFav = (req, res) => {
   myFavorites = myFavorites.filter((favorite) => favorite.id !== +id);
   //el + se usa para pasar el id a número antes de compararlo. Porque sino queda como string.
 
-
   return res.status(200).json(myFavorites);
 };
 
 module.exports = {
   postFav,
-  deleteFav
-}
+  deleteFav,
+};

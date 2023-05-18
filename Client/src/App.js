@@ -24,7 +24,7 @@ function App() {
       setAccess(true);
       navigate("/home");
     }
-  }
+  };
 
   useEffect(() => {
     !access && navigate("/");
@@ -36,16 +36,17 @@ function App() {
     );
 
     if (isCharaterAlreadyAdded) {
-      window.alert('¡Este personaje ya ha sido agregado')
-    } else axios(`http://localhost:3001/rickandmorty/character/${id}`).then(
-      ({ data }) => {
-        if (data.name) {
-          setCharacters((oldChars) => [...oldChars, data]);
-        } else {
-          window.alert("¡No hay personajes con este ID!");
+      window.alert("¡Este personaje ya ha sido agregado");
+    } else
+      axios(`http://localhost:3001/rickandmorty/character/${id}`).then(
+        ({ data }) => {
+          if (data.name) {
+            setCharacters((oldChars) => [...oldChars, data]);
+          } else {
+            window.alert("¡No hay personajes con este ID!");
+          }
         }
-      }
-    );
+      );
   };
 
   const onClose = (id) => {
@@ -62,14 +63,14 @@ function App() {
         <Route path="/" element={<Form onSubmit={login}></Form>}></Route>
         <Route
           path="/home"
-          element={<Cards characters={characters} onClose={onClose}
-          className='home'
-          />}
+          element={
+            <Cards characters={characters} onClose={onClose} className="home" />
+          }
         ></Route>
         <Route path="/about" element={<About />}></Route>
         <Route path="/detail/:id" element={<Detail />}></Route>
         {/* */}
-        <Route path="/favorites" element={<Favorites ></Favorites>}></Route>
+        <Route path="/favorites" element={<Favorites></Favorites>}></Route>
       </Routes>
     </div>
   );
