@@ -7,7 +7,7 @@ const About = () => {
         height:"100vh"
       }}
     >
-      <h1>Este es el About</h1>
+      <h1 className="text-white">Este es el About</h1>
     </div>
   );
 };

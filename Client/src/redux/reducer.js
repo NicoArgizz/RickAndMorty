@@ -3,48 +3,58 @@ import { ADD_FAV, REMOVE_FAV, FILTER, ORDER } from "./actions-types";
 const initialState = {
   myFavorites: [],
   allCharacters: [],
-  filteredCharacters: []
+  filteredCharacters: [],
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_FAV:
-      const isCharacterAlreadyAdded = state.myFavorites.some((character) => character.id === action.payload.id);
-      if (isCharacterAlreadyAdded) {
-        return state;
-      } else {
-        return {
-          ...state,
-          myFavorites: [...state.myFavorites, action.payload],
-          allCharacters: [...state.allCharacters, action.payload],
-          filteredCharacters: [...state.filteredCharacters, action.payload]
-        };
-      }
-    case REMOVE_FAV:
-      let deleteCharacter = state.myFavorites.filter(
-        (character) => character.id !== Number(action.payload)
-      );
+      // const isCharacterAlreadyAdded = state.myFavorites.some((character) => character.id === action.payload.id);
+      // if (isCharacterAlreadyAdded) {
+      //   return state;
+      // } else {
+      //   return {
+      //     ...state,
+      //     myFavorites: [...state.myFavorites, action.payload],
+      //     allCharacters: [...state.allCharacters, action.payload],
+      //     filteredCharacters: [...state.filteredCharacters, action.payload]
+      //   };
       return {
         ...state,
-        myFavorites: deleteCharacter,
-        allCharacters: deleteCharacter,
-        filteredCharacters: deleteCharacter
+        myFavorites: action.payload,
+        allCharacters: action.payload,
+      };
+
+    case REMOVE_FAV:
+      // let deleteCharacter = state.myFavorites.filter(
+      //   (character) => character.id !== Number(action.payload)
+      // );
+      // return {
+      //   ...state,
+      //   myFavorites: deleteCharacter,
+      //   allCharacters: deleteCharacter,
+      //   filteredCharacters: deleteCharacter,
+      // };
+      return {
+        ...state,
+        myFavorites: action.payload,
+        allCharacters: action.payload,
       };
     case FILTER:
-      if (action.payload === 'allCharacters') {
+      if (action.payload === "allCharacters") {
         return {
           ...state,
-          filteredCharacters: state.myFavorites
+          filteredCharacters: state.myFavorites,
         };
       } else {
         const filteredCharacters = state.myFavorites.filter(
           (character) => character.gender === action.payload
-          );
-          return {
-            ...state,
-            filteredCharacters: filteredCharacters
-          };
-        }
+        );
+        return {
+          ...state,
+          filteredCharacters: filteredCharacters,
+        };
+      }
     case ORDER:
       const orderCharacters = [...state.filteredCharacters];
       if (action.payload === "A") {

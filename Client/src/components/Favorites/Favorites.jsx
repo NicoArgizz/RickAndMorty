@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import Card02 from "../Card/Card02";
+import Card from "../Card/Card02";
 import { filterCards, orderCards } from "../../redux/actions";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
@@ -38,7 +38,7 @@ const Favorites = ({ myFavorites, filteredFavorites }) => {
       <div className="d-flex flex-column flex-md-row justify-content-around align-items-center flex-wrap">
         {favoritesToRender?.map((character) => {
           return (
-            <Card02
+            <Card
               key={character.id}
               id={character.id}
               name={character.name}
@@ -47,7 +47,7 @@ const Favorites = ({ myFavorites, filteredFavorites }) => {
               gender={character.gender}
               image={character.image}
               onClose={character.onClose}
-            ></Card02>
+            ></Card>
           );
         })}
       </div>
